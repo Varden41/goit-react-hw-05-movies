@@ -1,0 +1,17 @@
+.nav {
+    font-size: 24px;
+        text-decoration: none;
+        border-bottom: 1px solid black;
+}
+.link {
+    margin-right: 20px;
+}
+
+link:visited {
+    color: brown;
+}
+.active {
+    color: tomato;
+    text-decoration: none;
+    margin-right: 20px;
+}
