@@ -1,6 +1,7 @@
 import { Link, useLocation, useParams, Outlet } from 'react-router-dom';
 import { useState, useEffect, Suspense } from 'react';
 import { fetchChosenMovie } from 'Api/tmdb';
+import styles from './MoviesDetailed.module.css';
 
 function MoviesDetailed() {
   const [movie, setMovie] = useState();
@@ -23,11 +24,13 @@ function MoviesDetailed() {
       <Link state={{ from: location }} to={location.state?.from ?? '/'}>
         Go back
       </Link>
-      <div>
+      <div className={styles.div}>
         {movie && movie.backdrop_path ? (
           <img
             src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`}
             alt={movie.title}
+            height="100%"
+            width="100%"
           />
         ) : (
           <></>
@@ -47,7 +50,7 @@ function MoviesDetailed() {
           <p>{movie && movie.genres.map(genre => genre.name).join(', ')}</p>
         </div>
       </div>
-      <div>
+      <div className={styles.divInfo}>
         <p>Additional information</p>
         <ul>
           <li>
