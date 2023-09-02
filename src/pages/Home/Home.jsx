@@ -12,6 +12,7 @@ function Home() {
       async function fetchTrendingMovies() {
         const results = await fetchMovies();
         setMovies(results);
+        console.log(results);
       }
       fetchTrendingMovies();
     } catch (error) {
