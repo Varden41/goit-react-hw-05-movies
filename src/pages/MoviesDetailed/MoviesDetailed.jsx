@@ -12,7 +12,6 @@ function MoviesDetailed() {
       async function chosenMovie() {
         const results = await fetchChosenMovie(params.movieId);
         setMovie(results);
-        console.log(results);
       }
       chosenMovie();
     } catch (error) {
@@ -25,11 +24,13 @@ function MoviesDetailed() {
         Go back
       </Link>
       <div>
-        {movie && (
+        {movie && movie.backdrop_path ? (
           <img
             src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`}
             alt={movie.title}
           />
+        ) : (
+          <></>
         )}
         <div>
           <h1>
@@ -50,10 +51,14 @@ function MoviesDetailed() {
         <p>Additional information</p>
         <ul>
           <li>
-            <Link>Cast</Link>
+            <Link state={{ from: location.state?.from }} to={`cast`}>
+              Cast
+            </Link>
           </li>
           <li>
-            <Link>Reviews</Link>
+            <Link state={{ from: location.state?.from }} to={`reviews`}>
+              Reviews
+            </Link>
           </li>
         </ul>
       </div>

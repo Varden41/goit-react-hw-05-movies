@@ -50,7 +50,7 @@ export async function fetchChosenMovie(movieId) {
 
 //movies cast
 
-export async function fetchChosenMovieCast(movieId) {
+export async function fetchChosenCast(movieId) {
   try {
     const response = await fetch(
       `${BASE_URL}/movie/${movieId}/credits?${searchParams}`
@@ -63,7 +63,7 @@ export async function fetchChosenMovieCast(movieId) {
 }
 // movies reviews
 
-export async function fetchChosenMovieReviews(movieId) {
+export async function fetchChosenReviews(movieId) {
   try {
     const response = await fetch(
       `${BASE_URL}/movie/${movieId}/reviews?${searchParams}`
