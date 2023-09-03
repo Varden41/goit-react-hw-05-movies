@@ -1,33 +1,37 @@
 import { Link, useLocation, useParams, Outlet } from 'react-router-dom';
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { fetchChosenMovie } from 'Api/tmdb';
 import styles from './MoviesDetailed.module.css';
-
+import defaultPicture from 'DefaultPicture/default-movie.jpg';
 function MoviesDetailed() {
-  const [movie, setMovie] = useState();
+  const [movie, setMovie] = useState(null);
   const location = useLocation();
-  const params = useParams();
+  const { movieId } = useParams();
 
   useEffect(() => {
     try {
       async function chosenMovie() {
-        const results = await fetchChosenMovie(params.movieId);
+        const results = await fetchChosenMovie(movieId);
         setMovie(results);
       }
       chosenMovie();
     } catch (error) {
       console.log(error);
     }
-  }, [params]);
+  }, [movieId]);
   return (
     <div>
       <Link state={{ from: location }} to={location.state?.from ?? '/'}>
         Go back
       </Link>
       <div className={styles.div}>
-        {movie && movie.backdrop_path ? (
+        {movie ? (
           <img
-            src={`https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`}
+            src={
+              movie.backdrop_path
+                ? `https://image.tmdb.org/t/p/w500/${movie.backdrop_path}`
+                : defaultPicture
+            }
             alt={movie.title}
             height="100%"
             width="100%"
@@ -65,9 +69,7 @@ function MoviesDetailed() {
           </li>
         </ul>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <Outlet />
-      </Suspense>
+      <Outlet />
     </div>
   );
 }

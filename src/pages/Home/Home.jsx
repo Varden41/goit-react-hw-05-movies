@@ -1,11 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Suspense } from 'react';
-import { Link, useLocation } from 'react-router-dom';
 import { fetchMovies } from 'Api/tmdb';
+import MoviesList from 'components/MoviesList/MoviesList';
 
 function Home() {
   const [movies, setMovies] = useState([]);
-  const location = useLocation();
 
   useEffect(() => {
     try {
@@ -19,19 +17,7 @@ function Home() {
     }
   }, []);
 
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <ul>
-        {movies.map(movie => (
-          <li key={movie.id}>
-            <Link state={{ from: location }} to={`movies/${movie.id}`}>
-              {movie.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </Suspense>
-  );
+  return <MoviesList movies={movies} />;
 }
 
 export default Home;

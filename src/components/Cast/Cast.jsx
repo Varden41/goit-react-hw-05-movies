@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchChosenCast } from 'Api/tmdb';
+import defaultImage from 'DefaultPicture/images.jpg';
 
 function Cast() {
   const [cast, setCast] = useState();
@@ -23,13 +24,16 @@ function Cast() {
       {cast &&
         cast.map(cast => (
           <li key={cast.id}>
-            {cast.profile_path && (
-              <img
-                src={`https://image.tmdb.org/t/p/w500/${cast.profile_path}`}
-                alt={cast.original_name}
-                width="100"
-              />
-            )}
+            <img
+              src={
+                cast.profile_path
+                  ? `https://image.tmdb.org/t/p/w500/${cast.profile_path}`
+                  : defaultImage
+              }
+              alt={cast.original_name}
+              width="100"
+            />
+
             <p>{cast.name}</p>
             <p>Character: {cast.character}</p>
           </li>

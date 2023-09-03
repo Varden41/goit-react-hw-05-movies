@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { fetchSearchedMovies } from 'Api/tmdb';
+import MoviesList from 'components/MoviesList/MoviesList';
+import SearchForm from 'components/SearchForm/SearchForm';
 
 function Movies() {
   const [status, setStatus] = useState('idle');
   const [searchParams, setSearchParams] = useSearchParams();
   const [movies, setMovies] = useState([]);
-  const location = useLocation();
 
-  const searchQuery = searchParams.get('name') ?? '';
+  const searchQuery = searchParams.get('name');
   const queryUpdate = name => {
-    const nextParams = name !== '' ? { name } : {};
-    setSearchParams(nextParams);
+    setSearchParams({ name });
   };
 
   useEffect(() => {
+    if (!searchQuery) return;
     async function fetchFoundMovies() {
       const results = await fetchSearchedMovies(searchQuery);
 
@@ -33,34 +34,16 @@ function Movies() {
   const onHandleSubmin = async e => {
     const target = e.currentTarget.search.value.trim();
     e.preventDefault();
-    queryUpdate(target);
-    // resetForm();
+    if (target !== '') {
+      queryUpdate(target);
+    }
   };
   return (
     <div>
-      <form onSubmit={onHandleSubmin}>
-        <input
-          type="text"
-          name="search"
-          autoComplete="off"
-          autoFocus
-          placeholder="Search"
-        />
-        <button>Search</button>
-      </form>
+      <SearchForm queryUpdate={queryUpdate} />
       {status === 'idle' && <div>Fill search field!</div>}
       {status === 'rejected' && <div>Nothing found, sorry</div>}
-      {status === 'loaded' && (
-        <ul>
-          {movies.map(movie => (
-            <li key={movie.id}>
-              <Link state={{ from: location }} to={`${movie.id}`}>
-                {movie.title}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+      {status === 'loaded' && <MoviesList movies={movies} />}
     </div>
   );
 }
