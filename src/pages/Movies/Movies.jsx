@@ -31,13 +31,6 @@ function Movies() {
     fetchFoundMovies();
   }, [searchQuery]);
 
-  const onHandleSubmin = async e => {
-    const target = e.currentTarget.search.value.trim();
-    e.preventDefault();
-    if (target !== '') {
-      queryUpdate(target);
-    }
-  };
   return (
     <div>
       <SearchForm queryUpdate={queryUpdate} />
